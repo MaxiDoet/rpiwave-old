@@ -8,4 +8,8 @@ The Schematics and Eagle files are in the pcb folder.
 
 ## Software
 
-The si4
+The si46xx library is from [this](https://github.com/elmo2k3/dabpi_ctl) project
+
+## Installing
+
+ 
