@@ -18,7 +18,7 @@ The si46xx library is from [this](https://github.com/elmo2k3/dabpi_ctl) project
 
 ## Planned Features ##
 
- <p style="color: red" >Hello</p>
+ - [] Modern UI Interface 
 
 This installs all important libraries and compiles the c library needed to interface with the radio chip.
 
