@@ -16,6 +16,10 @@ The si46xx library is from [this](https://github.com/elmo2k3/dabpi_ctl) project
     cd rpiwave
     ./setup.sh
 
+## Planned Features ##
+
+ <p style="color: red" >Hello</p>
+
 This installs all important libraries and compiles the c library needed to interface with the radio chip.
 
 This project also includes an automatic updater.
