@@ -14,6 +14,8 @@ cd gmrender-resurrect
 make
 echo "Installing UPNP Renderer..."
 make install
+echo "Installing UPNP Service..."
+cp dist-scripts/debian/gmrender-resurrect.service /etc/systemd/system
 
 echo "Downloading Raspotify..."
 curl -sL https://dtcooper.github.io/raspotify/install.sh | sh

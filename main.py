@@ -13,5 +13,5 @@ if config["services"]["bluetoothAudio"]:
     logger.info("Bluetooth Audio is active")
 
 if config["services"]["upnpAudio"]:
-    subprocess.Popen(["./bin/gmediarender", "-f", config['services']['upnpAudio']])
+    os.system("systemctl start gmrender-resurrect")
     logger.info("UPNP Renderer is active")
