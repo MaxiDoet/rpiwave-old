@@ -8,7 +8,8 @@ config = {
     },
     "upnp": {
         "deviceName": "",
-        "deviceManufactur": ""
+        "deviceManufactur": "",
+        "bin": "/usr/local/bin/gmediarender"
     },
     "services": {
         "bluetoothAudio": True,

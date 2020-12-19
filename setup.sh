@@ -12,9 +12,8 @@ cd gmrender-resurrect
 ./autogen.sh
 ./configure
 make
-echo "Copying Binaries..."
-mkdir ../bin
-cp src/gmediarender ../bin/gmediarender
+echo "Installing UPNP Renderer..."
+make install
 
 echo "Downloading Raspotify..."
 curl -sL https://dtcooper.github.io/raspotify/install.sh | sh
