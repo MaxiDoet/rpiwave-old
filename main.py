@@ -7,7 +7,7 @@ logging.basicConfig(format="'%(asctime)-15s %(message)s'")
 logger = logging.getLogger('WebRadio')
 
 if config["bluetooth"]["autoPair"]:
-    subprocess.Popen(["python", "bt-agent.py"]);
+    subprocess.Popen(["python", "btagent.py"]);
     logger.info("Auto-Pair/Accept agent is active")
 
 os.system("hciconfig hci0 name %s" % config["bluetooth"]["deviceName"]);
