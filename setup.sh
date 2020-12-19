@@ -3,7 +3,7 @@ if [[ $(id -u) -ne 0 ]] ; then echo "Please run as root" ; exit 1 ; fi
 apt-get -y install git build-essential autoconf automake libtool pkg-config libupnp-dev libgstreamer1.0-dev \
              gstreamer1.0-plugins-base gstreamer1.0-plugins-good \
              gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly \
-             gstreamer1.0-libav gstreamer1.0-alsa bluez alsa-base alsa-utils bluealsa bluez-tools
+             gstreamer1.0-libav gstreamer1.0-alsa bluez alsa-base alsa-utils bluealsa bluez-tools python-alsaaudio
 
 echo "Cloning UPNP Renderer Code..."
 git clone https://github.com/TheHeroCraft1579/gmrender-resurrect.git
