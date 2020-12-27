@@ -1,0 +1,3 @@
+DEVICE_NAME="WebRadio"
+BITRATE="320"
+VOLUME_ARGS="--linear-volume --initial-volume=100"

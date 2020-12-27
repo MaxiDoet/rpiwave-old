@@ -51,6 +51,7 @@ class NextionDisplayInterface:
         return self.display.read(2)
 
     def get_current_page(self):
+        # Check if sleep is 1 because then page will be out of index!
         self.send("sendme")
         return self.display.read(5)[1]
 
@@ -67,6 +68,12 @@ class NextionDisplayInterface:
 
     def wake(self):
         self.display.write("sleep=0")
+
+    def hide(self, name):
+        self.display.write("vis %s,0" % name)
+
+    def show(self, name):
+        self.display.write("vis %s,1" % name)
 
 class NextionEffects:
     def typewrite(interface, name, text, time):

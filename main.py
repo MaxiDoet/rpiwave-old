@@ -5,6 +5,10 @@ import subprocess
 from nextion import NextionDisplay, NextionDisplayInterface, NextionEventHandler, NextionEffects
 from datetime import datetime
 from time import sleep
+import threading
+import json
+
+from parsers import news
 
 logging.basicConfig(format="'%(asctime)-15s %(message)s'")
 logger = logging.getLogger('WebRadio')
@@ -26,7 +30,8 @@ class WebRadioEventHandler:
     def page_1_component_0_touch(self):
         interface.set_page(3)
     def page_3_component_3_touch(self):
-        print("It worked :-)")
+        interface.set_page(1)
+
     def page_3_component_7_touch(self):
         interface.set_page(8)
         NextionEffects.typewrite_reverse(interface, "gT0", "Goodbye", 0.1)
@@ -48,6 +53,14 @@ def updateClock(clockList):
             if clockList[num]['date']:
                 interface.set_text(clockList[num]['dateComponent'], date)
 
+def displayNews():
+    n = news.parseNews()
+    articles = n["articles"]
+
+    interface.set_text("sDT2", articles[0]["title"])
+    #interface.set_text("sDT3", articles[1]["title"])
+    #interface.set_text("sDT4", articles[2]["title"])
+
 display = NextionDisplay("/dev/ttyUSB0", 9600, False)
 interface = NextionDisplayInterface(display, WebRadioEventHandler())
 
@@ -58,6 +71,7 @@ NextionEffects.typewrite(interface, "bT0", "Welcome", 0.1)
 sleep(3)
 interface.set_page(1)
 updateClock(clockList)
+displayNews()
 
 while True:
     eventData = interface.display.read(7)
@@ -65,3 +79,6 @@ while True:
         interface.handle_touch_event(eventData)
 
     updateClock(clockList)
+
+    if interface.get_current_page() == 1:
+        displayNews()
