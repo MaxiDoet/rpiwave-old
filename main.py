@@ -1,19 +1,26 @@
 from config import config
 import os
 import logging
-import subprocess
 from nextion import NextionDisplay, NextionDisplayInterface, NextionEventHandler, NextionEffects
-from datetime import datetime
+from handlers import WebRadioEventHandler
 from time import sleep
-import threading
-import json
+import utils
+from datetime import datetime
 
 from parsers import news
 
 logging.basicConfig(format="'%(asctime)-15s %(message)s'")
 logger = logging.getLogger('WebRadio')
 
-def initservices():
+clockList = {1: {"time": True, "timeComponent": "sDT0", "date": True, "dateComponent": "sDT1"},
+             3: {"time": True, "timeComponent": "mT0", "date": False, "dateComponent": ""},
+             4: {"time": True, "timeComponent": "dST1", "date": False, "dateComponent": ""},
+             5: {"time": True, "timeComponent": "dSLT1", "date": False, "dateComponent": ""},
+             6: {"time": True, "timeComponent": "dSIT1", "date": False, "dateComponent": ""},
+             7: {"time": True, "timeComponent": "wST1", "date": False, "dateComponent": ""},
+             9: {"time": True, "timeComponent": "mT0", "date": False, "dateComponent": ""}}
+
+def init_services():
     os.system("hciconfig hci0 name %s" % config["bluetooth"]["deviceName"]);
 
     if config["services"]["bluetoothAudio"]:
@@ -23,23 +30,6 @@ def initservices():
     if config["services"]["upnpAudio"]:
         os.system("systemctl start gmrender-resurrect")
         logger.info("UPNP Renderer is active")
-
-initservices()
-
-class WebRadioEventHandler:
-    def page_1_component_0_touch(self):
-        interface.set_page(3)
-    def page_3_component_3_touch(self):
-        interface.set_page(1)
-
-    def page_3_component_7_touch(self):
-        interface.set_page(8)
-        NextionEffects.typewrite_reverse(interface, "gT0", "Goodbye", 0.1)
-        sleep(1)
-        NextionEffects.dim_out_screen(interface, 1)
-        interface.sleep()
-
-clockList={1: { "time": True, "timeComponent": "sDT0", "date": True, "dateComponent": "sDT1"}, 3: { "time": True, "timeComponent": "mT0", "date": False, "dateComponent": ""}}
 
 def updateClock(clockList):
     for num in clockList:
@@ -53,16 +43,12 @@ def updateClock(clockList):
             if clockList[num]['date']:
                 interface.set_text(clockList[num]['dateComponent'], date)
 
-def displayNews():
-    n = news.parseNews()
-    articles = n["articles"]
-
-    interface.set_text("sDT2", articles[0]["title"])
-    #interface.set_text("sDT3", articles[1]["title"])
-    #interface.set_text("sDT4", articles[2]["title"])
+init_services()
 
 display = NextionDisplay("/dev/ttyUSB0", 9600, False)
-interface = NextionDisplayInterface(display, WebRadioEventHandler())
+interface = NextionDisplayInterface(display)
+handler = WebRadioEventHandler(interface)
+interface.register_event_handler(handler)
 
 interface.wake()
 interface.set_brightness(100)
@@ -70,8 +56,6 @@ interface.set_page(0)
 NextionEffects.typewrite(interface, "bT0", "Welcome", 0.1)
 sleep(3)
 interface.set_page(1)
-updateClock(clockList)
-displayNews()
 
 while True:
     eventData = interface.display.read(7)
@@ -80,5 +64,14 @@ while True:
 
     updateClock(clockList)
 
+    """
     if interface.get_current_page() == 1:
         displayNews()
+
+    if interface.get_current_page() == 7:
+        displayStationList()
+    """
+
+    if interface.get_current_page() != interface.last_page:
+        interface.last_page = interface.get_current_page()
+        interface.handle_page_change_event(interface.get_current_page())

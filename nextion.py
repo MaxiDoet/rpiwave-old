@@ -1,7 +1,9 @@
 import serial
 from time import sleep
 
-NEXTION_COMMAND_END=b'\xff\xff\xff'
+NEXTION_COMMAND_END = b'\xff\xff\xff'
+NEXTION_NEWLINE = b'\x0d\x0a'
+
 
 class NextionDisplay:
     def __init__(self, port, baudrate=9600, debug=False):
@@ -18,6 +20,14 @@ class NextionDisplay:
             for b in data:
                 print(b, end=' ')
 
+    def write_raw(self, data):
+        self.ser.write(data)
+
+        if self.debug:
+            print("Debug: write\nData:")
+            for b in data:
+                print(b, end=' ')
+
     def read(self, size):
         self.ser.flush()
         if self.debug: print("Debug: read")
@@ -26,19 +36,44 @@ class NextionDisplay:
 
         return data
 
+
 class NextionDisplayInterface:
-    def __init__(self, nextionDisplay, eventHandler):
+    def __init__(self, nextionDisplay):
         self.display = nextionDisplay
-        self.handler = eventHandler
+        self.handler = None
+        self.last_page = 0
+
+    def register_event_handler(self, handler):
+        self.handler = handler
+        num_events = len([func for func in dir(handler) if callable(getattr(handler, func))][22:])
+        print("Registered event handler (%s events)" % num_events)
 
     def send(self, command):
         self.display.write(command)
 
     def set_page(self, num):
+        self.last_page = self.get_current_page()
         self.display.write('page ' + str(num))
 
     def set_text(self, name, text):
         self.display.write('%s.txt="%s"' % (name, text))
+
+    def add_line_to_combobox(self, name, text):
+
+        data = ('%s.path+="%s%s"' % (name, text, "\x0D\x0a")).encode("UTF-8") + NEXTION_COMMAND_END
+        
+        self.display.write_raw(data)
+        print(data)
+
+
+        """
+        self.display.write('%s.path+="%s"' % (name, text))
+        self.display.write('%s.path+="%s"' % (name, NEXTION_NEWLINE))
+        """
+        """
+        self.display.write('%s.path+="%s\r"' % (name, text))
+        print('%s.path+="%s\r"' % (name, text))
+        """
 
     def set_color(self, name, code, colorProperty="pco"):
         self.display.write('%s.%s=%s' % (name, colorProperty, code))
@@ -56,12 +91,26 @@ class NextionDisplayInterface:
         return self.display.read(5)[1]
 
     def handle_touch_event(self, data):
-        print("New touch event!, ComponentID:%s, Page:%s" % (data[2], data[1]))
-        try:
-            methodName = "page_%s_component_%s_touch" % (data[1], data[2])
-            getattr(self.handler, methodName)()
-        except AttributeError:
-            print("No eventhandler is defined for component %s. Please define %s" % (data[2], methodName))
+        if self.handler:
+            print("Touch event: ComponentID:%s, Page:%s" % (data[2], data[1]))
+            try:
+                methodName = "page_%s_component_%s_touch" % (data[1], data[2])
+                getattr(self.handler, methodName)()
+            except AttributeError:
+                print("No eventhandler is defined for component %s. Please define %s" % (data[2], methodName))
+        else:
+            print("Seems like there is no event handler registered!")
+
+    def handle_page_change_event(self, page):
+        if self.handler:
+            print("Page change event: Page: %s" % page)
+            try:
+                methodName = "page_%s_change" % (page)
+                getattr(self.handler, methodName)()
+            except AttributeError:
+                print("No eventhandler is defined for page %s. Please define %s" % (page, methodName))
+        else:
+            print("Seems like there is no event handler registered!")
 
     def sleep(self):
         self.display.write("sleep=1")
@@ -75,12 +124,13 @@ class NextionDisplayInterface:
     def show(self, name):
         self.display.write("vis %s,1" % name)
 
+
 class NextionEffects:
     def typewrite(interface, name, text, time):
         interface.set_text(name, "")
         tmp = ""
         for num in range(0, len(text)):
-            tmp+= text[num]
+            tmp += text[num]
             interface.set_text(name, tmp)
             sleep(time)
 
@@ -105,9 +155,11 @@ class NextionEffects:
         for cur in range(dim, end_value, 1):
             interface.set_brightness(cur)
 
+
 class NextionEventHandler:
     def page_0_test_event(self):
         print("This was a test you have to override this")
+
 
 def convert_hex_to_nextion(r, g, b):
     return ((r >> 3) << 11) + ((g >> 2) << 5) + (b >> 3)

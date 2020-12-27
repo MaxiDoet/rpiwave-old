@@ -18,9 +18,8 @@ The si46xx library is from [this](https://github.com/elmo2k3/dabpi_ctl) project
 
 ## Planned Features ##
 
- - [ ] Modern UI Interface (Electron)
+ - [x] Modern nextion interface
  - [ ] Web Interface
- - [ ] Socket Communication
 
 This installs all important libraries and compiles the c library needed to interface with the radio chip.
 
