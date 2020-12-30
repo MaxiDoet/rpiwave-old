@@ -1,9 +1,0 @@
-{
-  "stations": [
-    {
-      "name": "Bayern 3",
-      "language": "de",
-      "streamUrl": "http://br-br3-live.cast.addradio.de/br/br3/live/mp3/mid"
-    }
-  ]
-}

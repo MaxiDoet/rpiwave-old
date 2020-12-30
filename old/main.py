@@ -54,12 +54,15 @@ def updateClock(clockList):
             if clockList[num]['date']:
                 interface.set_text(clockList[num]['dateComponent'], date)
 
+
 display = NextionDisplay("/dev/ttyUSB0", 9600, False)
 interface = NextionDisplayInterface(display)
 handler = WebRadioEventHandler(interface)
 interface.register_event_handler(handler)
 
 init()
+
+lastWebStation = 1
 
 while True:
     currentPage = interface.get_current_page()
@@ -73,9 +76,10 @@ while True:
         interface.handle_page_change_event(interface.get_current_page())
 
     if currentPage == 7:
+        selected = interface.get_selected("wSC0")
         #print("Debug: getStreams(): %s" % utils.getStreams())
         #print("Debug: getSelected(): %s" % interface.get_selected("wSC0"))
         #print("Debug: getStreams()[getselected()]: %s" % utils.getStreams()[interface.get_selected("wSC0")])
-        interface.set_text("wST2", radio.get_program_info(radio.getCurrentStationUrl())["title"])
+        interface.set_text("wST2", radio.get_program_info(utils.getStreams()[selected])["title"])
 
     updateClock(clockList)

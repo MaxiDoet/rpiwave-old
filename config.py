@@ -20,7 +20,8 @@ config = {
         "newsCountry": "de",
         "weatherLocation": {"lat": "49.4403198", "lon": "11.8633445"},
         "radioBrowserUrl": "http://91.132.145.114",
-        "radioBrowserCountry": "ger"
+        "radioBrowserCountry": "ger",
+        "webStationList": "stations_de.json"
     }
 }
 

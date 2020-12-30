@@ -56,6 +56,7 @@ class NextionDisplayInterface:
             print("Timeout: ", timeout)
             data = self.display.read(response_size)
             if data != b'': print("Got answer: %s", data); return
+            sleep(wait)
 
         print("Timeout!")
         return 0
@@ -82,8 +83,9 @@ class NextionDisplayInterface:
         """
 
     def get_selected(self, name):
-        self.display.write("get %s.val" % name)
-        data = self.display.read(8)
+        #self.display.write("get %s.val" % name)
+        #data = self.display.read(8)
+        data = self.send("get %s.val" % name, 8)
         print("Debug: read(8): %s" % data)
         return data[1]
 
@@ -105,7 +107,8 @@ class NextionDisplayInterface:
 
     def get_current_page(self):
         # Check if sleep is 1 because then page will be out of index!
-        self.display.write("sendme")
+        #self.send("sendme")
+
         return self.display.read(5)[1]
 
     def handle_touch_event(self, data):

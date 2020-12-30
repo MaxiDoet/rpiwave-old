@@ -1,0 +1,34 @@
+{
+  "stations": [
+    {
+      "name": "Bayern 3",
+      "language": "de",
+      "streamUrl": "http://br-br3-live.cast.addradio.de/br/br3/live/mp3/mid"
+    },
+    {
+      "name": "Bayern 2",
+      "language": "de",
+      "streamUrl": "http://br-br2-sued.cast.addradio.de/br/br2/sued/mp3/mid"
+    },
+    {
+      "name": "Bayern 1",
+      "language": "de",
+      "streamUrl": "http://br-br1-nbopf.cast.addradio.de/br/br1/nbopf/mp3/mid"
+    },
+    {
+      "name": "BR-Klassik",
+      "language": "de",
+      "streamUrl": "http://br-brklassik-live.cast.addradio.de/br/brklassik/live/mp3/mid"
+    },
+    {
+      "name": "B5 aktuell",
+      "language": "de",
+      "streamUrl": "http://br-b5aktuell-live.cast.addradio.de/br/b5aktuell/live/mp3/mid"
+    },
+    {
+      "name": "B5 plus",
+      "language": "de",
+      "streamUrl": "http://br-b5plus-live.cast.addradio.de/br/b5plus/live/mp3/mid"
+    }
+  ]
+}
