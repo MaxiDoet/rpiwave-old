@@ -63,19 +63,20 @@ init()
 
 while True:
     currentPage = interface.get_current_page()
-    eventData = interface.display.read(7)
-
-    if eventData and eventData[0] == 101:
-        interface.handle_touch_event(eventData)
 
     if currentPage != interface.last_page:
-        interface.last_page = interface.get_current_page()
-        interface.handle_page_change_event(interface.get_current_page())
+        interface.last_page = currentPage
+        interface.handle_page_change_event(currentPage)
 
     if currentPage == 7:
         #print("Debug: getStreams(): %s" % utils.getStreams())
         #print("Debug: getSelected(): %s" % interface.get_selected("wSC0"))
         #print("Debug: getStreams()[getselected()]: %s" % utils.getStreams()[interface.get_selected("wSC0")])
-        interface.set_text("wST2", radio.get_program_info(radio.getCurrentStationUrl())["title"])
+        print(radio.currentStation)
+        interface.set_text("wST2", radio.get_program_info(utils.getStations()[radio.currentStation]["streamUrl"])["title"])
+
+    eventData = interface.display.read(7)
+    if eventData and eventData[0] == 101:
+        interface.handle_touch_event(eventData)
 
     updateClock(clockList)

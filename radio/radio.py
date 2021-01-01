@@ -3,7 +3,7 @@ import os
 import json
 import utils
 
-currentStation = 0
+currentStation = ""
 
 def get_info(url):
     return json.loads(subprocess.check_output(
@@ -44,12 +44,7 @@ def playStation(station):
     if station < 25:
         try:
             stations = utils.getStations()
-            currentStation = station
             playStream(stations[station]["streamUrl"])
         except IndexError:
             print("No station is attached to this preset field!")
 
-
-def getCurrentStationUrl():
-    stations = utils.getStations()
-    return stations[currentStation]["streamUrl"]

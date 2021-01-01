@@ -64,98 +64,122 @@ class WebRadioEventHandler:
     # Register all 24 station buttons :-( :
     def page_8_component_7_touch(self):
         radio.playStation(0)
+        radio.currentStation = 0
         self.interface.set_page(7)
 
     def page_8_component_8_touch(self):
         radio.playStation(1)
+        radio.currentStation = 1
         self.interface.set_page(7)
 
     def page_8_component_9_touch(self):
         radio.playStation(2)
+        radio.currentStation = 2
         self.interface.set_page(7)
 
     def page_8_component_10_touch(self):
         radio.playStation(3)
+        radio.currentStation = 3
         self.interface.set_page(7)
 
     def page_8_component_11_touch(self):
         radio.playStation(4)
+        radio.currentStation = 4
         self.interface.set_page(7)
 
     def page_8_component_12_touch(self):
         radio.playStation(5)
+        radio.currentStation = 5
         self.interface.set_page(7)
 
     def page_8_component_13_touch(self):
         radio.playStation(6)
+        radio.currentStation = 6
         self.interface.set_page(7)
 
     def page_8_component_14_touch(self):
         radio.playStation(7)
+        radio.currentStation = 7
         self.interface.set_page(7)
 
     def page_8_component_15_touch(self):
         radio.playStation(8)
+        radio.currentStation = 8
         self.interface.set_page(7)
 
     def page_8_component_16_touch(self):
         radio.playStation(9)
+        radio.currentStation = 9
         self.interface.set_page(7)
 
     def page_8_component_17_touch(self):
         radio.playStation(10)
+        radio.currentStation = 10
         self.interface.set_page(7)
 
     def page_8_component_18_touch(self):
         radio.playStation(11)
+        radio.currentStation = 11
         self.interface.set_page(7)
 
     def page_8_component_19_touch(self):
         radio.playStation(12)
+        radio.currentStation = 12
         self.interface.set_page(7)
 
     def page_8_component_20_touch(self):
         radio.playStation(13)
+        radio.currentStation = 13
         self.interface.set_page(7)
 
     def page_8_component_21_touch(self):
         radio.playStation(14)
+        radio.currentStation = 14
         self.interface.set_page(7)
 
     def page_8_component_22_touch(self):
         radio.playStation(15)
+        radio.currentStation = 15
         self.interface.set_page(7)
 
     def page_8_component_23_touch(self):
         radio.playStation(16)
+        radio.currentStation = 16
         self.interface.set_page(7)
 
     def page_8_component_24_touch(self):
         radio.playStation(17)
+        radio.currentStation = 17
         self.interface.set_page(7)
 
     def page_8_component_25_touch(self):
         radio.playStation(18)
+        radio.currentStation = 18
         self.interface.set_page(7)
 
     def page_8_component_26_touch(self):
         radio.playStation(19)
+        radio.currentStation = 19
         self.interface.set_page(7)
 
     def page_8_component_27_touch(self):
         radio.playStation(20)
+        radio.currentStation = 20
         self.interface.set_page(7)
 
     def page_8_component_28_touch(self):
         radio.playStation(21)
+        radio.currentStation = 21
         self.interface.set_page(7)
 
     def page_8_component_29_touch(self):
         radio.playStation(22)
+        radio.currentStation = 22
         self.interface.set_page(7)
 
     def page_8_component_30_touch(self):
         radio.playStation(23)
+        radio.currentStation = 23
         self.interface.set_page(7)
 
     # Page change events
